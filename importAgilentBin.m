@@ -1,8 +1,23 @@
 function Waveform = importAgilentBin(inputFilename, waveformSelection)
-% ImportAgilentBin reads the Agilent Binary Waveform filetype and creates a
-% struct that contains the requested waveforms as well as relevant
-% information about each waveform. If the WaveformIndex is an empty array,
-% all waveforms present in the binary file will be read.
+% ImportAgilentBin is a modification of the freely available MATLAB 
+% function (of the same name) produced by Agilent Technologies. This 
+% function allows users of Agilent oscilloscopes to read the binary files
+% produced when saving data.
+%
+% The original function, from Agilent, only reads in a particular waveform
+% and outputs the X and Y data from that waveform. The modified function
+% reads the Agilent binary aveform filetype and creates a struct that 
+% contains the requested waveforms as well as relevant information about 
+% each waveform. If the WaveformIndex is an empty array, all waveforms 
+% present in the binary file will be read.
+%
+% Inputs:   filename: a string specifying the location of the binary file
+%           waveform array: a numeric array of waveforms that the user
+%           wishes to read
+%
+% Output:   Waveform: a struct containing the desired waveforms, as well
+%           basic information on all waveforms available in the binary
+%           file.
 %
 % Sample usage:
 % Waveform = importAgilentBin('file_001.bin', [1 2 3 4])
