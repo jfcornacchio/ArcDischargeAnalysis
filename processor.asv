@@ -86,10 +86,9 @@ function ProcessedData = processor(input_file_struct,PreprocessedData)
     
 %% Calculate dr/dt in unts of cm/s
     % First, calculate the size of the pixels in centimeters
-    cm_per_pixel                        = input_file_struct.MMPerPixel/10;
-    centerline_drdt_upper_cm_per_sec    = centerline_drdt_upper*cm_per_pixel;
-    centerline_drdt_lower_cm_per_sec    = centerline_drdt_lower*cm_per_pixel;
-    
+    cm_per_pixel = input_file_struct.MMPerPixel/10;
+    centerline_drdt_upper_cm_per_sec = 
+    centerline_drdt_lower_cm_per_sec = 
 %% Calculate the 1-D flame stretch as a function of time and location
 
     % Preallocate memory
@@ -97,15 +96,13 @@ function ProcessedData = processor(input_file_struct,PreprocessedData)
 
 
 %% Save variables into the output struct
-    ProcessedData.drdt.upper                        = dr_dt_upper;
-    ProcessedData.drdt.lower                        = dr_dt_lower;
-    ProcessedData.Time                              = time;
-    ProcessedData.UpperCenterline_Normalized_drdt   = centerline_drdt_upper;
-    ProcessedData.LowerCenterline_Normalized_drdt   = centerline_drdt_lower;
-    ProcessedData.UpperCenterLineRadius             = radius_pixels_top(:,input_file_struct.CenterLocX);
-    ProcessedData.LowerCenterLineRadius             = radius_pixels_bot(:,input_file_struct.CenterLocX);
-    ProcessedData.UpperCenterline_cm_per_sec_drdt   = centerline_drdt_upper_cm_per_sec;
-    ProcessedData.LowerCenterline_cm_per_sec_drdt   = centerline_drdt_lower_cm_per_sec;
+    ProcessedData.drdt.upper            = dr_dt_upper;
+    ProcessedData.drdt.lower            = dr_dt_lower;
+    ProcessedData.Time                  = time;
+    ProcessedData.UpperCenterline_drdt  = centerline_drdt_upper;
+    ProcessedData.LowerCenterline_drdt  = centerline_drdt_lower;
+    ProcessedData.UpperCenterLineRadius = radius_pixels_top(:,input_file_struct.CenterLocX);
+    ProcessedData.LowerCenterLineRadius = radius_pixels_bot(:,input_file_struct.CenterLocX);
     
 end
 

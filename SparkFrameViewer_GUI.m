@@ -208,7 +208,7 @@ function browse_preprocessed_files_button_Callback(hObject, eventdata, handles)
     % Open the default settings file. If it is determined that some of the 
     % files require us to write inputs, we will use this cell array to hold
     % the new inputs and only write back to the excel file at the end.
-    [~,~,input_file] = xlsread([handles.RootFolder 'Input_File.xlsx'],'Inputs');
+    [~,~,input_file] = xlsread([handles.RootFolder '\Input_File.xlsx'],'Inputs');
     
     % Get the input file column headers
     input_col_headers = input_file(1,:);

@@ -59,9 +59,9 @@ function PostProcess_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 %% Set the data into the main table
 
     % Load the input file
-    handles.ProcessedFiles = varargin{1}.ProcessedFiles;
-    handles.PreprocessedFiles = varargin{1}.PreprocessedFiles;
-    handles.InputStruct = varargin{1}.InputStruct;
+    handles.ProcessedFiles      = varargin{1}.ProcessedFiles;
+    handles.PreprocessedFiles   = varargin{1}.PreprocessedFiles;
+    handles.InputStruct         = varargin{1}.InputStruct;
 
     % Get the list of files that have had their input files setup 
     FilesWithInputs = {handles.InputStruct(:).Filename};
@@ -71,7 +71,7 @@ function PostProcess_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
     [FilesWithInputs,~] = strtok(FilesWithInputs,'.');
     
     % Using the inputs, fill in the main table
-    tabledata = cell(length(handles.InputStruct),13); handles.InputStruct.Filename
+    tabledata = cell(length(handles.InputStruct),13); handles.InputStruct.Filename;
     
     for loop = 1:size(tabledata,1)
         

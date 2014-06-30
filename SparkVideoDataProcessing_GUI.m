@@ -75,8 +75,9 @@ function varargout = SparkVideoDataProcessing_GUI_OutputFcn(hObject, eventdata, 
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Get default command line output from handles structure
-varargout{1} = handles.output;
+    % Get default command line output from handles structure
+    varargout{1} = handles.output;
+    
 end
 
 
@@ -187,7 +188,7 @@ function setup_inputs_button_Callback(hObject, eventdata, handles)
     % Make sure that the list of raw files does not include any files with
     % names less than 3 characters. These are most likely garbage names
     % (I've seen names like "." and ".."
-    temp_idx = find(cellfun('length',RawFileList)>3);
+    temp_idx    = find(cellfun('length',RawFileList)>3);
     RawFileList = RawFileList(temp_idx);
     
     % Compare the list of files that are in the RawVideos folder to the
@@ -315,8 +316,8 @@ function modify_inputs_button_Callback(hObject, eventdata, handles)
     input_file(1,:) = [];
     
     % Replace any NaN fields in the input struct with empty strings
-    temp_idx = cellfun(@(x) any(isnan(x(:))),input_file,'UniformOutput',false);
-    temp_idx = cell2mat(temp_idx);
+    temp_idx                = cellfun(@(x) any(isnan(x(:))),input_file,'UniformOutput',false);
+    temp_idx                = cell2mat(temp_idx);
     input_file(temp_idx==1) = {''};
     
     % Load the input file into a struct
@@ -469,8 +470,8 @@ function preprocess_button_Callback(hObject, eventdata, handles)
     input_file(1,:) = [];
     
     % Replace any NaN fields in the input struct with empty strings
-    temp_idx = cellfun(@(x) any(isnan(x(:))),input_file,'UniformOutput',false);
-    temp_idx = cell2mat(temp_idx);
+    temp_idx                = cellfun(@(x) any(isnan(x(:))),input_file,'UniformOutput',false);
+    temp_idx                = cell2mat(temp_idx);
     input_file(temp_idx==1) = {''};
     
     % Load the input file into a struct
@@ -572,8 +573,8 @@ function process_button_Callback(hObject, eventdata, handles)
     input_file(1,:) = [];
     
     % Replace any NaN fields in the input struct with empty strings
-    temp_idx = cellfun(@(x) any(isnan(x(:))),input_file,'UniformOutput',false);
-    temp_idx = cell2mat(temp_idx);
+    temp_idx                = cellfun(@(x) any(isnan(x(:))),input_file,'UniformOutput',false);
+    temp_idx                = cell2mat(temp_idx);
     input_file(temp_idx==1) = {''};
     
     % Load the input file into a struct
@@ -620,7 +621,7 @@ function process_button_Callback(hObject, eventdata, handles)
         PreprocessedFileList = strrep(PreprocessedFileList,'PreprocessedData_','');
     else
         % Preprocessed data files were NOT found
-        PreprocessedFileList={''};
+        PreprocessedFileList = {''};
     end
     
     % Create the input struct for the processing selection tables
@@ -715,8 +716,8 @@ function postprocess_button_Callback(hObject, eventdata, handles)
     input_file(1,:) = [];
     
     % Replace any NaN fields in the input struct with empty strings
-    temp_idx = cellfun(@(x) any(isnan(x(:))),input_file,'UniformOutput',false);
-    temp_idx = cell2mat(temp_idx);
+    temp_idx                = cellfun(@(x) any(isnan(x(:))),input_file,'UniformOutput',false);
+    temp_idx                = cell2mat(temp_idx);
     input_file(temp_idx==1) = {''};
     
     % Load the input file into a struct
@@ -733,8 +734,8 @@ function postprocess_button_Callback(hObject, eventdata, handles)
     ProcessedFileList = dir([handles.RootFolder 'ProcessedData/*.mat']);
     
     if ~isempty(ProcessedFileList)
-       % No processed data was found
-       ProcessedFileList = {ProcessedFileList.name};
+        % No processed data was found
+        ProcessedFileList = {ProcessedFileList.name};
     
         % The standard prefix to the processed data files is 
         % "ProcessedData_". Delete this from the list of processed 
