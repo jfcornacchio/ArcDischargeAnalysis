@@ -546,15 +546,29 @@ function process_button_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
     
+    % Close all open waitbars
+    multiWaitbar('CloseAll');
+
+    % Initialize waitbars
+    multiWaitbar('Loading Input File',0,'Color',[0 0 1]);
+    multiWaitbar('Creating List of Processed Data',0,'Color',[0 0 1]);
+    multiWaitbar('Processing Requested Files',0,'Color',[0 0 1]);
+    
     % Check to make sure that the user selected a valid root folder
     if ~isfield(handles,'RootFolder') || ~isdir(handles.RootFolder)
-        warn = warndlg('Please select a valid root folder.','WARNING');
-        uiwait(warn)
-        return;
+        error = errordlg('Please select a valid root folder.','ERROR');
+        uiwait(error)
+        
+        % Close all waitbars and exit
+        multiWaitbar('CloseAll');
+        return
     end
     
     % Get a list of the video files that have had their inputs setup
     [~,~,input_file] = xlsread([handles.RootFolder 'Input_File.xlsx'],'Inputs');
+    
+    % Update waitbar
+    multiWaitbar('Loading Input File',1);
     
     % Check to make sure that the number of rows is greater than one, which
     % would indicate that there is no data in the input file!
@@ -562,7 +576,10 @@ function process_button_Callback(hObject, eventdata, handles)
        % There is no data stored in the input file!
        warn = warndlg('There are no inputs in the input file!','WARNING!');
        uiwait(warn)
-       return;        
+       
+        % Close all waitbars and exit
+        multiWaitbar('CloseAll');
+       return
     end
     
     % Get the input file column headers, assuming that they're on the first
@@ -590,6 +607,9 @@ function process_button_Callback(hObject, eventdata, handles)
     % Get a list of the .mat files in the processed folder
     ProcessedFileList = dir([handles.RootFolder 'ProcessedData/*.mat']);
     
+    % Update waitbar
+    multiWaitbar('Creating List of Processed Data',0);
+    
     if ~isempty(ProcessedFileList)
        % No processed data was found
        ProcessedFileList = {ProcessedFileList.name};
@@ -607,6 +627,9 @@ function process_button_Callback(hObject, eventdata, handles)
     
     % Get a list of the .mat files in the preprocessed folder
     PreprocessedFileList = dir([handles.RootFolder 'PreprocessedData/*.mat']);
+    
+    % Update the waitbar
+    multiWaitbar('Creating List of Processed Data',1);
     
     if ~isempty(PreprocessedFileList)
         % Preprocessed data files were found
@@ -641,17 +664,15 @@ function process_button_Callback(hObject, eventdata, handles)
     % Check to make sure at least one file has been selected for
     % preprocessing.
     if isempty(FilesToProcess)
+        % Close all waitbars and exit
+        
+        % Close all waitbars and exit
+        multiWaitbar('CloseAll');
         return;
     end
     
-    % Call the processor for the selected files.
-    
-    % Setup the waitbar
-    wait_process = waitbar(0,'Processing File');
-    
-    for loop=1:length(FilesToProcess)                
-       % Update the waitbar
-        waitbar((loop-1)/length(FilesToProcess),wait_process,['Processing File ' FilesToProcess{loop}]);
+    % Call the processor for the selected files.    
+    for loop = 1:length(FilesToProcess)
 
         % Find the index of the file to be processed in the "CurrentFiles"
         % cell array, which is a list of files already in the input file.
@@ -671,11 +692,11 @@ function process_button_Callback(hObject, eventdata, handles)
         save([handles.RootFolder 'ProcessedData\' 'ProcessedData_' FilesToProcess{loop} '.mat'],'ProcessedData')
         
         % Update the waitbar
-        waitbar((loop-0)/length(FilesToProcess),wait_process,['Processing File ' FilesToProcess{loop}]);
+         multiWaitbar('Processing Requested Files',loop/length(FilesToProcess));
     end
     
-    % Close the waitbar
-    close(wait_process)
+    % Close all waitbars
+    multiWaitbar('CloseAll');
     
     % Update handles structure
     guidata(hObject, handles);

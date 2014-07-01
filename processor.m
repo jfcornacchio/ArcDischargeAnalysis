@@ -72,10 +72,10 @@ function ProcessedData = processor(input_file_struct,PreprocessedData)
 %% Calculate the change in radius with time, dr/dt, in units of pixels
 
     % Calculate dr/dt for the upper image
-    dr_dt_upper = diff(radius_pixels_top,1,1)/input_file_struct.TimeStep/1000;
+    dr_dt_upper = diff(radius_pixels_top,1,1)./(input_file_struct.TimeStep/1000);
 
     % Calculate dr/dt for the lower image
-    dr_dt_lower = diff(radius_pixels_bot,1,1)/input_file_struct.TimeStep/1000;
+    dr_dt_lower = diff(radius_pixels_bot,1,1)./(input_file_struct.TimeStep/1000);
     
     % Create a time stamp matrix for plotting.
     time = ((0:size(dr_dt_upper,1))*input_file_struct.TimeStep)';
@@ -90,21 +90,19 @@ function ProcessedData = processor(input_file_struct,PreprocessedData)
     centerline_drdt_upper_cm_per_sec    = centerline_drdt_upper*cm_per_pixel;
     centerline_drdt_lower_cm_per_sec    = centerline_drdt_lower*cm_per_pixel;
     
-%% Calculate the 1-D flame stretch as a function of time and location
-
-    % Preallocate memory
-
-
-
 %% Save variables into the output struct
     ProcessedData.drdt.upper                        = dr_dt_upper;
     ProcessedData.drdt.lower                        = dr_dt_lower;
     ProcessedData.Time                              = time;
+    ProcessedData.TimeFirstDerivative               = time(2:end);
     ProcessedData.UpperCenterline_Normalized_drdt   = centerline_drdt_upper;
     ProcessedData.LowerCenterline_Normalized_drdt   = centerline_drdt_lower;
-    ProcessedData.UpperCenterLineRadius             = radius_pixels_top(:,input_file_struct.CenterLocX);
-    ProcessedData.LowerCenterLineRadius             = radius_pixels_bot(:,input_file_struct.CenterLocX);
+    ProcessedData.UpperCenterLineRadius_cm          = radius_pixels_top(:,input_file_struct.CenterLocX)*cm_per_pixel;
+    ProcessedData.LowerCenterLineRadius_cm          = radius_pixels_bot(:,input_file_struct.CenterLocX)*cm_per_pixel;
     ProcessedData.UpperCenterline_cm_per_sec_drdt   = centerline_drdt_upper_cm_per_sec;
+    ProcessedData.LowerCenterline_cm_per_sec_drdt   = centerline_drdt_lower_cm_per_sec;
+    
+    ProcessedData.LowerCenterline_cm_per_sec_drdt   = centerline_drdt_lower_cm_per_sec;
     ProcessedData.LowerCenterline_cm_per_sec_drdt   = centerline_drdt_lower_cm_per_sec;
     
 end
