@@ -210,7 +210,7 @@ for loop = 1:numgrps
             % Add channel values to a matrix. The comment, #ok<AGROW>, at
             % the end of the line prevents warnings about the matrix
             % needing to allocate more memory for the added values.
-            chanvals(:,loop2) = (vals.Value); %#ok<AGROW>
+            chanvals(:,loop2) = (vals.Value);
         end
             
     end

@@ -64,6 +64,7 @@ function SparkFrameViewer_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 
     % UIWAIT makes SparkFrameViewer_GUI wait for user response (see UIRESUME)
     % uiwait(handles.figure1);
+    
 end
 
 
@@ -74,8 +75,9 @@ function varargout = SparkFrameViewer_GUI_OutputFcn(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Get default command line output from handles structure
-varargout{1} = handles.output;
+    % Get default command line output from handles structure
+    varargout{1} = handles.output;
+    
 end
 
 
@@ -115,7 +117,7 @@ function next_frame_button_Callback(hObject, eventdata, handles)
         % There are no more frames!
         h = msgbox('This is the last frame!');
         uiwait(h)
-        return;
+        return
     end
     
     % Update the displayed image

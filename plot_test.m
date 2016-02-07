@@ -1,48 +1,93 @@
-file2 = load('C:\Users\Jim Cornacchio\Documents\Dissertation\HighSpeedVideoProcessing\SchlierenVideoProcessing\ProcessedData\ProcessedData_GT2011_2.mat');
-file3 = load('C:\Users\Jim Cornacchio\Documents\Dissertation\HighSpeedVideoProcessing\SchlierenVideoProcessing\ProcessedData\ProcessedData_GT2011_9.mat');
-file4 = load('C:\Users\Jim Cornacchio\Documents\Dissertation\HighSpeedVideoProcessing\SchlierenVideoProcessing\ProcessedData\ProcessedData_GT2011_1.mat');
+%% Initialize parameters
+clc
+clearvars
 
-file5 = load('C:\Users\Jim Cornacchio\Documents\Dissertation\HighSpeedVideoProcessing\SchlierenVideoProcessing\ProcessedData\ProcessedData_GT2011_5.mat');
-file6 = load('C:\Users\Jim Cornacchio\Documents\Dissertation\HighSpeedVideoProcessing\SchlierenVideoProcessing\ProcessedData\ProcessedData_GT2011_6.mat');
-% figure
-% hold on
-% grid on
-% xlabel('Time (ms)')
-% ylabel('Upper Spark Radius, Vertical Centerline')
-% plot(file2.ProcessedData.Time,file2.ProcessedData.UpperCenterLineRadius_cm,'.b');
-% plot(file3.ProcessedData.Time,file3.ProcessedData.UpperCenterLineRadius_cm,'.m');
-% plot(file4.ProcessedData.Time,file4.ProcessedData.UpperCenterLineRadius_cm,'.k');
-% plot(file5.ProcessedData.Time,file5.ProcessedData.UpperCenterLineRadius_cm,'.g');
-% plot(file6.ProcessedData.Time,file6.ProcessedData.UpperCenterLineRadius_cm,'.r');
-% figure
-% hold on
-% xlabel('Time (ms)')
-% ylabel('Lower Spark Radius, Vertical Centerline')
-% plot(file2.ProcessedData.Time,file2.ProcessedData.LowerCenterLineRadius_cm,'.b');
-% plot(file3.ProcessedData.Time,file3.ProcessedData.LowerCenterLineRadius_cm,'.m');
-% plot(file4.ProcessedData.Time,file4.ProcessedData.LowerCenterLineRadius_cm,'.k');
-% plot(file5.ProcessedData.Time,file5.ProcessedData.LowerCenterLineRadius_cm,'.g');
-% plot(file6.ProcessedData.Time,file6.ProcessedData.LowerCenterLineRadius_cm,'.r');
-% grid on
+% List of files containing data to be plotted
+FileList = {
+%             'C:\Users\Jim Cornacchio\Documents\Dissertation\HighSpeedVideoProcessing\SchlierenVideoProcessing\ProcessedData\ProcessedData_GT2011_1.mat';
+%             'C:\Users\Jim Cornacchio\Documents\Dissertation\HighSpeedVideoProcessing\SchlierenVideoProcessing\ProcessedData\ProcessedData_GT2011_2.mat';
+%             'C:\Users\Jim Cornacchio\Documents\Dissertation\HighSpeedVideoProcessing\SchlierenVideoProcessing\ProcessedData\ProcessedData_GT2011_3.mat';
+%             'C:\Users\Jim Cornacchio\Documents\Dissertation\HighSpeedVideoProcessing\SchlierenVideoProcessing\ProcessedData\ProcessedData_GT2011_4.mat';
+%             'C:\Users\Jim Cornacchio\Documents\Dissertation\HighSpeedVideoProcessing\SchlierenVideoProcessing\ProcessedData\ProcessedData_GT2011_5.mat';
+%             'C:\Users\Jim Cornacchio\Documents\Dissertation\HighSpeedVideoProcessing\SchlierenVideoProcessing\ProcessedData\ProcessedData_GT2011_6.mat';
+            'C:\Users\Jim Cornacchio\Documents\Dissertation\HighSpeedVideoProcessing\SchlierenVideoProcessing\ProcessedData\ProcessedData_GT2011_7.mat';
+            'C:\Users\Jim Cornacchio\Documents\Dissertation\HighSpeedVideoProcessing\SchlierenVideoProcessing\ProcessedData\ProcessedData_GT2011_8.mat';
+%             'C:\Users\Jim Cornacchio\Documents\Dissertation\HighSpeedVideoProcessing\SchlierenVideoProcessing\ProcessedData\ProcessedData_GT2011_9.mat';
+            };
 
-figure
-hold on
+% X and Y variable names
+YVariableName  	= 'UpperCenterLineRadius_cm';
+XVariableName   = 'Time';
+
+% X and Y limits
+YLimitSetting   = 'Auto';
+XLimitSetting   = 'Auto';
+YLimit          = [0 1000];
+XLimit          = [0 8];
+
+% X and Y Axes Label Font Sizes
+YLabelFontSize = 18;
+XLabelFontSize = 18;
+
+% Axes Font Size
+AxesFontSize = 16;
+
+% Initialize waitbars
+multiWaitbar('Loading Data',0,'Color',[0 0 1]);
+
+%% Plot Setup
+FigureHandle    = figure('Visible','off');
+AxesHandle      = gca;
+hold all
+xlabel('Time(ms)','FontSize',XLabelFontSize)
+ylabel('Radius (cm)','FontSize',YLabelFontSize)
+title('Centerline Radius vs. Time, 6mm Spark Gap','FontSize',24)
+
+set(AxesHandle,'FontSize',AxesFontSize)
+
+%% Plot Data
+
+for loop = 1:length(FileList)
+    
+    % Load the file
+    Data = load(FileList{loop});
+    
+    if Data.ProcessedData.NominalSparkGap==6
+        markercolor = 'g';
+    elseif Data.ProcessedData.NominalSparkGap==2
+        markercolor = 'k';
+    elseif Data.ProcessedData.NominalSparkGap==10
+        markercolor = 'g';
+    else
+        markercolor = 'm';
+    end
+    
+    plot(AxesHandle,Data.ProcessedData.(XVariableName),Data.ProcessedData.(YVariableName),'Marker','o','MarkerEdgeColor','k','MarkerFaceColor',markercolor,'LineStyle','none')
+   
+    % Update the waitbar
+    multiWaitbar('Loading Data',loop/length(FileList));
+    
+end
+
+% Set the axes scales
+switch YLimitSetting
+    case 'Manual'
+        set(AxesHandle,'YLim',YLimit)
+    otherwise
+end
+
+switch XLimitSetting
+    case 'Manual'
+        set(AxesHandle,'XLim',XLimit)
+    otherwise
+end
+
+% Turn the grid on
 grid on
-xlabel('Time (ms)')
-ylabel('Spark Kernel Upper Propagation Speed (cm/s), Vertical Centerline')
-plot(file2.ProcessedData.TimeFirstDerivative,file2.ProcessedData.UpperCenterline_cm_per_sec_drdt,'.b');
-plot(file3.ProcessedData.TimeFirstDerivative,file3.ProcessedData.UpperCenterline_cm_per_sec_drdt,'.m');
-plot(file4.ProcessedData.TimeFirstDerivative,file4.ProcessedData.UpperCenterline_cm_per_sec_drdt,'.k');
-plot(file5.ProcessedData.TimeFirstDerivative,file5.ProcessedData.UpperCenterline_cm_per_sec_drdt,'.g');
-plot(file6.ProcessedData.TimeFirstDerivative,file6.ProcessedData.UpperCenterline_cm_per_sec_drdt,'.r');
-figure
-hold on
-xlabel('Time (ms)')
-ylabel('Spark Radius Lower Propagation Speed (cm/s), Vertical Centerline')
-plot(file2.ProcessedData.TimeFirstDerivative,file2.ProcessedData.LowerCenterline_cm_per_sec_drdt,'.b');
-plot(file3.ProcessedData.TimeFirstDerivative,file3.ProcessedData.LowerCenterline_cm_per_sec_drdt,'.m');
-plot(file4.ProcessedData.TimeFirstDerivative,file4.ProcessedData.LowerCenterline_cm_per_sec_drdt,'.k');
-plot(file5.ProcessedData.TimeFirstDerivative,file5.ProcessedData.LowerCenterline_cm_per_sec_drdt,'.g');
-plot(file6.ProcessedData.TimeFirstDerivative,file6.ProcessedData.LowerCenterline_cm_per_sec_drdt,'.r');
-grid on
+
+% Make the figure visible
+set(FigureHandle,'Visible','on')
+
+% Close all waitbars
+multiWaitbar('CloseAll');
 

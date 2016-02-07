@@ -22,7 +22,7 @@ function varargout = spark_stretch_input_gui(varargin)
 
 % Edit the above text to modify the response to help spark_stretch_input_gui
 
-% Last Modified by GUIDE v2.5 29-Sep-2013 19:58:43
+% Last Modified by GUIDE v2.5 09-Dec-2014 21:26:14
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -47,14 +47,14 @@ end
 
 % --- Executes just before spark_stretch_input_gui is made visible.
 function spark_stretch_input_gui_OpeningFcn(hObject, eventdata, handles, varargin)
-% This function has no output args, see OutputFcn.
+% This function has no Output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   unrecognized PropertyName/PropertyValue pairs from the
 %            command line (see VARARGIN)
 
-    % Choose default command line output for spark_stretch_input_gui
+    % Choose default command line Output for spark_stretch_input_gui
     handles.output = hObject;
     
     handles.InputFileContents = varargin{1}.InputFileContents;
@@ -62,7 +62,6 @@ function spark_stretch_input_gui_OpeningFcn(hObject, eventdata, handles, varargi
     % Initialize the various textboxes with values from the input
     % structure. If the fields in the input structure are empty, they will
     % be in the GUI as well.
-    set(handles.electrode_diam_edit_textbox,'String',handles.InputFileContents.NomElectrodeDiam)
     set(handles.lower_right_edge_elec,'String',handles.InputFileContents.LowerRightElectrodeY)
     set(handles.upper_right_edge_elec,'String',handles.InputFileContents.UpperRightElectrodeY)
     set(handles.right_perp_face_elec,'String',handles.InputFileContents.RightElectrodeFacePos)
@@ -77,46 +76,14 @@ function spark_stretch_input_gui_OpeningFcn(hObject, eventdata, handles, varargi
     set(handles.center_x_loc_textbox,'String',handles.InputFileContents.CenterLocX)
     set(handles.playback_framerate_textbox,'String',handles.InputFileContents.PlaybackFramerate)
     set(handles.filename_textbox,'String',handles.InputFileContents.Filename)
-    set(handles.description_edit_textbox,'String',handles.InputFileContents.Description)
     set(handles.x_min_crop_textbox,'String',handles.InputFileContents.CropXMin)
     set(handles.x_max_crop_textbox,'String',handles.InputFileContents.CropXMax)
     set(handles.y_min_crop_textbox,'String',handles.InputFileContents.CropYMin)
     set(handles.y_max_crop_textbox,'String',handles.InputFileContents.CropYMax)
     set(handles.startframe_edit_textbox,'String',handles.InputFileContents.StartFrame)
     set(handles.endframe_edit_textbox,'String',handles.InputFileContents.EndFrame)
-    set(handles.sparkgap_edit_textbox,'String',handles.InputFileContents.NominalSparkGap)
     set(handles.recording_framerate_edit_textbox,'String',handles.InputFileContents.RecordingFramerate)
-    set(handles.date_recorded_edit_textbox,'String',handles.InputFileContents.Date)
-    set(handles.initial_temp_edit_textbox,'String',handles.InputFileContents.InitialTemperature)
-    set(handles.initial_pressure_textbox,'String',handles.InputFileContents.InitialPressure)
-    set(handles.average_spark_power_edit_textbox,'String',handles.InputFileContents.AverageSparkPower)
-    set(handles.spark_energy_textbox,'String',handles.InputFileContents.SparkEnergy)
-    set(handles.breakdown_voltage_edit_textbox,'String',handles.InputFileContents.BreakdownVoltage)
-    
-    % Set the fuel, oxidizer and ignition status popoup menus. First, get
-    % the current list of fuels, oxidizers and igniton statuses.
-
-    if ~isempty(handles.InputFileContents.Fuel)
-        fuel_string = get(handles.fuel_popup_menu,'String');
-        fuel_idx = strcmpi(handles.InputFileContents.Fuel,fuel_string);
-        fuel_idx = find(fuel_idx==1);
-        set(handles.fuel_popup_menu,'Value',fuel_idx)
-    end
-    
-    if ~isempty(handles.InputFileContents.Oxidizer)
-        oxidizer_string = get(handles.oxidizer_popup_menu,'String');
-        oxidizer_idx = strcmpi(handles.InputFileContents.Oxidizer,oxidizer_string);
-        oxidizer_idx = find(oxidizer_idx==1);
-        set(handles.oxidizer_popup_menu,'Value',oxidizer_idx)
-    end
-    
-    if ~isempty(handles.InputFileContents.IgnitionStatus)
-        ignition_status_string = get(handles.ignition_status_popup,'String');
-        ignition_status_idx = strcmpi(handles.InputFileContents.IgnitionStatus,ignition_status_string);
-        ignition_status_idx = find(ignition_status_idx==1);
-        set(handles.ignition_status_popup,'Value',ignition_status_idx)
-    end
-    
+	
     % Show the GT logo!
     imshow('buzz_gt_logo.jpg')
     
@@ -133,86 +100,40 @@ end
 
 % --- Outputs from this function are returned to the command line.
 function varargout = spark_stretch_input_gui_OutputFcn(hObject, eventdata, handles)
-% varargout  cell array for returning output args (see VARARGOUT);
+% varargout  cell array for returning Output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-    % Set the outputs
-    handles.output.NomElectrodeDiam         = str2num(get(handles.electrode_diam_edit_textbox,'String'));
-    handles.output.LowerRightElectrodeY     = str2num(get(handles.lower_right_edge_elec,'String'));
-    handles.output.UpperRightElectrodeY     = str2num(get(handles.upper_right_edge_elec,'String'));
-    handles.output.RightElectrodeFacePos    = str2num(get(handles.right_perp_face_elec,'String'));
-    handles.output.UpperLeftElectrodeY      = str2num(get(handles.upper_left_edge_elec,'String'));
-    handles.output.LowerLeftElectrodeY      = str2num(get(handles.lower_left_edge_elec,'String'));
-    handles.output.LeftElectrodeFacePos     = str2num(get(handles.perp_face_left_elec,'String'));
-    handles.output.MMPerPixel               = str2num(get(handles.pixel_scale_textbox,'String'));
-    handles.output.Duration                 = str2num(get(handles.duration_textbox,'String'));
-    handles.output.TotalFrames              = str2num(get(handles.total_num_frames_textbox,'String'));
-    handles.output.TimeStep                 = str2num(get(handles.time_step_textbox,'String'));
-    handles.output.CenterLocY               = str2num(get(handles.center_y_loc_textbox,'String'));
-    handles.output.CenterLocX               = str2num(get(handles.center_x_loc_textbox,'String'));
-    handles.output.PlaybackFramerate        = str2num(get(handles.playback_framerate_textbox,'String'));
-    handles.output.Filename                 = get(handles.filename_textbox,'String');
-    handles.output.Description              = get(handles.description_edit_textbox,'String');
-    handles.output.CropXMin                 = str2num(get(handles.x_min_crop_textbox,'String'));
-    handles.output.CropXMax                 = str2num(get(handles.x_max_crop_textbox,'String'));
-    handles.output.CropYMin                 = str2num(get(handles.y_min_crop_textbox,'String'));
-    handles.output.CropYMax                 = str2num(get(handles.y_max_crop_textbox,'String'));
-    handles.output.StartFrame               = str2num(get(handles.startframe_edit_textbox,'String'));
-    handles.output.EndFrame                 = str2num(get(handles.endframe_edit_textbox,'String'));
-    handles.output.NominalSparkGap          = str2num(get(handles.sparkgap_edit_textbox,'String'));
-    handles.output.RecordingFramerate       = str2num(get(handles.recording_framerate_edit_textbox,'String'));
-    handles.output.Date                     = get(handles.date_recorded_edit_textbox,'String');
-    handles.output.InitialTemperature       = str2num(get(handles.initial_temp_edit_textbox,'String'));
-    handles.output.InitialPressure          = str2num(get(handles.initial_pressure_textbox,'String'));
-    handles.output.AverageSparkPower        = str2num(get(handles.average_spark_power_edit_textbox,'String'));
-    handles.output.SparkEnergy              = str2num(get(handles.spark_energy_textbox,'String'));
-    handles.output.BreakdownVoltage         = str2num(get(handles.breakdown_voltage_edit_textbox,'String'));
-    
-    % We must do a little extra work to get the selected fuel, oxidizer
-    % and ignition status from the popup menus.
-    fuel_idx = get(handles.fuel_popup_menu,'Value');
-    fuel_string = get(handles.fuel_popup_menu,'String');
-    handles.output.Fuel = fuel_string{fuel_idx};
-
-    oxidizer_idx = get(handles.oxidizer_popup_menu,'Value');
-    oxidizer_string = get(handles.oxidizer_popup_menu,'String');
-    handles.output.Oxidizer = oxidizer_string{oxidizer_idx};
-     
-    ignition_status_idx = get(handles.ignition_status_popup,'Value');
-    ignition_status_string = get(handles.ignition_status_popup,'String');
-    handles.output.IgnitionStatus = ignition_status_string{ignition_status_idx};
-    
-    % Get default command line output from handles structure
-    varargout{1} = handles.output;
+    % Set the Outputs
+    Output.LowerRightElectrodeY     = str2double(get(handles.lower_right_edge_elec,'String'));
+    Output.UpperRightElectrodeY     = str2double(get(handles.upper_right_edge_elec,'String'));
+    Output.RightElectrodeFacePos    = str2double(get(handles.right_perp_face_elec,'String'));
+    Output.UpperLeftElectrodeY      = str2double(get(handles.upper_left_edge_elec,'String'));
+    Output.LowerLeftElectrodeY      = str2double(get(handles.lower_left_edge_elec,'String'));
+    Output.LeftElectrodeFacePos     = str2double(get(handles.perp_face_left_elec,'String'));
+    Output.MMPerPixel               = str2double(get(handles.pixel_scale_textbox,'String'));
+    Output.Duration                 = str2double(get(handles.duration_textbox,'String'));
+    Output.TotalFrames              = str2double(get(handles.total_num_frames_textbox,'String'));
+    Output.TimeStep                 = str2double(get(handles.time_step_textbox,'String'));
+    Output.CenterLocY               = str2double(get(handles.center_y_loc_textbox,'String'));
+    Output.CenterLocX               = str2double(get(handles.center_x_loc_textbox,'String'));
+    Output.PlaybackFramerate        = str2double(get(handles.playback_framerate_textbox,'String'));
+    Output.Filename                 = get(handles.filename_textbox,'String');
+    Output.CropXMin                 = str2double(get(handles.x_min_crop_textbox,'String'));
+    Output.CropXMax                 = str2double(get(handles.x_max_crop_textbox,'String'));
+    Output.CropYMin                 = str2double(get(handles.y_min_crop_textbox,'String'));
+    Output.CropYMax                 = str2double(get(handles.y_max_crop_textbox,'String'));
+    Output.StartFrame               = str2double(get(handles.startframe_edit_textbox,'String'));
+    Output.EndFrame                 = str2double(get(handles.endframe_edit_textbox,'String'));
+    Output.RecordingFramerate       = str2double(get(handles.recording_framerate_edit_textbox,'String'));
+        
+    % Get default command line Output from handles structure
+    varargout{1} = handles.Output;
 
     % The figure can now be deleted
     delete(handles.figure1);
     
-end
-
-
-function description_edit_textbox_Callback(hObject, eventdata, handles)
-% hObject    handle to description_edit_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of description_edit_textbox as text
-%        str2double(get(hObject,'String')) returns contents of description_edit_textbox as a double
-end
-
-% --- Executes during object creation, after setting all properties.
-function description_edit_textbox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to description_edit_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
 end
 
 
@@ -255,98 +176,6 @@ function endframe_edit_textbox_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 
 % Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-end
-
-
-function sparkgap_edit_textbox_Callback(hObject, eventdata, handles)
-% hObject    handle to sparkgap_edit_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of sparkgap_edit_textbox as text
-%        str2double(get(hObject,'String')) returns contents of sparkgap_edit_textbox as a double
-end
-
-% --- Executes during object creation, after setting all properties.
-function sparkgap_edit_textbox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to sparkgap_edit_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-end
-
-
-function electrode_diam_edit_textbox_Callback(hObject, eventdata, handles)
-% hObject    handle to electrode_diam_edit_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of electrode_diam_edit_textbox as text
-%        str2double(get(hObject,'String')) returns contents of electrode_diam_edit_textbox as a double
-end
-
-% --- Executes during object creation, after setting all properties.
-function electrode_diam_edit_textbox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to electrode_diam_edit_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-end
-
-% --- Executes on selection change in fuel_popup_menu.
-function fuel_popup_menu_Callback(hObject, eventdata, handles)
-% hObject    handle to fuel_popup_menu (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns fuel_popup_menu contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from fuel_popup_menu
-end
-
-% --- Executes during object creation, after setting all properties.
-function fuel_popup_menu_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to fuel_popup_menu (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-end
-
-% --- Executes on selection change in oxidizer_popup_menu.
-function oxidizer_popup_menu_Callback(hObject, eventdata, handles)
-% hObject    handle to oxidizer_popup_menu (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns oxidizer_popup_menu contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from oxidizer_popup_menu
-end
-
-% --- Executes during object creation, after setting all properties.
-function oxidizer_popup_menu_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to oxidizer_popup_menu (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: popupmenu controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
@@ -540,15 +369,15 @@ function choose_electrode_position_Callback(hObject, eventdata, handles)
                                         'right_electrode_face',right_elect_face,...
                                         'image',electrode_background_gray);
 	
-    electrode_pos_output_struct = electrode_outline_gui(electrode_pos_input_struct);
+    electrode_pos_Output_struct = electrode_outline_gui(electrode_pos_input_struct);
     
 	% Set the crop area in the GUI using the results 
-    set(handles.upper_left_edge_elec,'String',electrode_pos_output_struct.left_electrode_top_coord);
-    set(handles.lower_left_edge_elec,'String',electrode_pos_output_struct.left_electrode_bot_coord);
-    set(handles.perp_face_left_elec,'String',electrode_pos_output_struct.left_electrode_face_coord);
-    set(handles.upper_right_edge_elec,'String',electrode_pos_output_struct.right_electrode_top_coord);
-    set(handles.lower_right_edge_elec,'String',electrode_pos_output_struct.right_electrode_bot_coord);
-    set(handles.right_perp_face_elec,'String',electrode_pos_output_struct.right_electrode_face_coord);
+    set(handles.upper_left_edge_elec,'String',electrode_pos_Output_struct.left_electrode_top_coord);
+    set(handles.lower_left_edge_elec,'String',electrode_pos_Output_struct.left_electrode_bot_coord);
+    set(handles.perp_face_left_elec,'String',electrode_pos_Output_struct.left_electrode_face_coord);
+    set(handles.upper_right_edge_elec,'String',electrode_pos_Output_struct.right_electrode_top_coord);
+    set(handles.lower_right_edge_elec,'String',electrode_pos_Output_struct.right_electrode_bot_coord);
+    set(handles.right_perp_face_elec,'String',electrode_pos_Output_struct.right_electrode_face_coord);
 
     % Update handles structure
     guidata(hObject, handles);
@@ -579,7 +408,7 @@ function load_presets_Callback(hObject, eventdata, handles)
 	% Check to make sure that the user made a selection
     if ok==0
         % The user hit the cancel button
-       return; 
+       return
     end
     
     % Get the index of the selected filename in the input file contents
@@ -605,17 +434,6 @@ function load_presets_Callback(hObject, eventdata, handles)
     set(handles.upper_left_edge_elec,'String',temp_struct.UpperLeftElectrodeY)
     set(handles.lower_left_edge_elec,'String',temp_struct.LowerLeftElectrodeY)
     set(handles.perp_face_left_elec,'String',temp_struct.LeftElectrodeFacePos)
-    
-    % We need to handle the popup menu a little differently. We need to
-    % set the value of the menu, not the actual string, which will set
-    % itself according to the stored list and the value we send to it.
-    fuel_string = get(handles.fuel_popup_menu,'String');
-    fuel_idx = find(strcmpi(temp_struct.Fuel,fuel_string)==1);
-    set(handles.fuel_popup_menu,'Value',fuel_idx)
-    
-    oxidizer_string = get(handles.oxidizer_popup_menu,'String');
-    oxidizer_idx = find(strcmpi(temp_struct.Oxidizer,oxidizer_string)==1);
-    set(handles.oxidizer_popup_menu,'Value',oxidizer_idx)
     
     % Update handles structure
     guidata(hObject, handles);
@@ -647,174 +465,4 @@ function figure1_CloseRequestFcn(hObject, eventdata, handles)
         delete(hObject);
     end
     
-end
-
-
-function initial_temp_edit_textbox_Callback(hObject, eventdata, handles)
-% hObject    handle to initial_temp_edit_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of initial_temp_edit_textbox as text
-%        str2double(get(hObject,'String')) returns contents of initial_temp_edit_textbox as a double
-end
-
-
-% --- Executes during object creation, after setting all properties.
-function initial_temp_edit_textbox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to initial_temp_edit_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-end
-
-
-function initial_pressure_textbox_Callback(hObject, eventdata, handles)
-% hObject    handle to initial_pressure_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of initial_pressure_textbox as text
-%        str2double(get(hObject,'String')) returns contents of initial_pressure_textbox as a double
-end
-
-
-% --- Executes during object creation, after setting all properties.
-function initial_pressure_textbox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to initial_pressure_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-end
-
-
-function average_spark_power_edit_textbox_Callback(hObject, eventdata, handles)
-% hObject    handle to average_spark_power_edit_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of average_spark_power_edit_textbox as text
-%        str2double(get(hObject,'String')) returns contents of average_spark_power_edit_textbox as a double
-end
-
-
-% --- Executes during object creation, after setting all properties.
-function average_spark_power_edit_textbox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to average_spark_power_edit_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-end
-
-
-
-function spark_energy_textbox_Callback(hObject, eventdata, handles)
-% hObject    handle to spark_energy_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of spark_energy_textbox as text
-%        str2double(get(hObject,'String')) returns contents of spark_energy_textbox as a double
-end
-
-
-% --- Executes during object creation, after setting all properties.
-function spark_energy_textbox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to spark_energy_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-end
-
-
-function breakdown_voltage_edit_textbox_Callback(hObject, eventdata, handles)
-% hObject    handle to breakdown_voltage_edit_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of breakdown_voltage_edit_textbox as text
-%        str2double(get(hObject,'String')) returns contents of breakdown_voltage_edit_textbox as a double
-end
-
-
-% --- Executes during object creation, after setting all properties.
-function breakdown_voltage_edit_textbox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to breakdown_voltage_edit_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-end
-
-
-
-function date_recorded_edit_textbox_Callback(hObject, eventdata, handles)
-% hObject    handle to date_recorded_edit_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of date_recorded_edit_textbox as text
-%        str2double(get(hObject,'String')) returns contents of date_recorded_edit_textbox as a double
-end
-
-
-% --- Executes during object creation, after setting all properties.
-function date_recorded_edit_textbox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to date_recorded_edit_textbox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-end
-
-
-% --- Executes on selection change in ignition_status_popup.
-function ignition_status_popup_Callback(hObject, eventdata, handles)
-% hObject    handle to ignition_status_popup (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns ignition_status_popup contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from ignition_status_popup
-end
-
-% --- Executes during object creation, after setting all properties.
-function ignition_status_popup_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to ignition_status_popup (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
 end

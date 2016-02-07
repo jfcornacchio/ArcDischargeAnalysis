@@ -6,7 +6,7 @@ function Waveform = importAgilentBin(inputFilename, waveformSelection)
 %
 % The original function, from Agilent, only reads in a particular waveform
 % and outputs the X and Y data from that waveform. The modified function
-% reads the Agilent binary aveform filetype and creates a struct that 
+% reads the Agilent binary waveform filetype and creates a struct that 
 % contains the requested waveforms as well as relevant information about 
 % each waveform. If the WaveformIndex is an empty array, all waveforms 
 % present in the binary file will be read.
@@ -163,9 +163,9 @@ function Waveform = importAgilentBin(inputFilename, waveformSelection)
             
             % Create temporary arrays that hold the xIncrement, nPoints and
             % xOrigin values for all previous waveforms.
-            temp_xIncrement = [Waveform.xIncrement(1:end-1)]; 
-            temp_nPoints    = [Waveform.nPoints(1:end-1)];
-            temp_xOrigin    = [Waveform.xOrigin(1:end-1)];
+            temp_xIncrement = [Waveform(1:end-1).xIncrement]; 
+            temp_nPoints    = [Waveform(1:end-1).nPoints];
+            temp_xOrigin    = [Waveform(1:end-1).xOrigin];
             
             % Compare the current values of xIncrement, nPoints and xOrigin
             % to all of the previous values. The result is three logical
@@ -206,7 +206,7 @@ function Waveform = importAgilentBin(inputFilename, waveformSelection)
 
             % If this waveform was requested by the user, store its data in
             % the struct
-            if waveformIndex == waveformSelection
+            if any(waveformIndex == waveformSelection)
                 % The user has requested this waveform.
                 if bufferType == 1 || bufferType == 2 || bufferType == 3
                     % bufferType is PB_DATA_NORMAL, PB_DATA_MIN, or PB_DATA_MAX (float)

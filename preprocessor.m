@@ -18,9 +18,9 @@ function preprocessing = preprocessor(input_data,vid)
     % to initialize the structure
     
     %Initialize struct fields
-    preprocessing.frame = ones(size(temp_frame));
-    preprocessing.binary_peaks = ones(size(temp_frame));
-    preprocessing.ContourCoord = struct('ContourCoordX',NaN,'ContourCoordY',NaN);
+    preprocessing.frame         = ones(size(temp_frame));
+    preprocessing.binary_peaks  = ones(size(temp_frame));
+    preprocessing.ContourCoord  = struct('ContourCoordX',NaN,'ContourCoordY',NaN);
     
     % Preallocate memory for all struct fields
     preprocessing(length(frames)).frame = ones(size(temp_frame));
@@ -28,7 +28,6 @@ function preprocessing = preprocessor(input_data,vid)
     % Initialize the storage in the struct for the image and its outline.
     % This data can be used to help the user examine the goodness of the
     % found edges in the image.
-    
     
 %% Preprocessing
     
@@ -133,8 +132,8 @@ function preprocessing = preprocessor(input_data,vid)
         
         % Clear the "gradient" and "number of points" data from the contour
         % output matrix
-        contour_output(:,ContourIndices) = [];
-        ContourRounded = round(contour_output);
+        contour_output(:,ContourIndices)    = [];
+        ContourRounded                      = round(contour_output);
 
         % Store the edge pixels in the data structure
         for loop2 = 1:size(ContourRounded,2)
@@ -147,9 +146,9 @@ function preprocessing = preprocessor(input_data,vid)
         preprocessing(loop).binary_peaks = peaks_matrix_logical;
 
         % Store the binary peak matrix in (x,y) coordinate form
-        idx = find((peaks_matrix_logical(:)==1));
-        [Y,X] = ind2sub(size(peaks_matrix_logical),idx);
-        preprocessing(loop).BinaryPeaksCoord = [X,Y];
+        idx                                     = find((peaks_matrix_logical(:)==1));
+        [Y,X]                                   = ind2sub(size(peaks_matrix_logical),idx);
+        preprocessing(loop).BinaryPeaksCoord    = [X,Y];
                 
         % Update the waitbar
         waitbar(loop/length(frames),edge_finding_wait,['Find edges in frame ' num2str(frames(loop))]);

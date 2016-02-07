@@ -101,9 +101,9 @@ function ProcessedData = processor(input_file_struct,PreprocessedData)
     ProcessedData.LowerCenterLineRadius_cm          = radius_pixels_bot(:,input_file_struct.CenterLocX)*cm_per_pixel;
     ProcessedData.UpperCenterline_cm_per_sec_drdt   = centerline_drdt_upper_cm_per_sec;
     ProcessedData.LowerCenterline_cm_per_sec_drdt   = centerline_drdt_lower_cm_per_sec;
-    
     ProcessedData.LowerCenterline_cm_per_sec_drdt   = centerline_drdt_lower_cm_per_sec;
     ProcessedData.LowerCenterline_cm_per_sec_drdt   = centerline_drdt_lower_cm_per_sec;
+    ProcessedData.NominalSparkGap                   = input_file_struct.NominalSparkGap;
     
 end
 
